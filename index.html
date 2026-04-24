@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#101827" />
+  <title>PulseNav Drive</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link href="https://unpkg.com/maplibre-gl@5.4.0/dist/maplibre-gl.css" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <noscript>
+    <div class="noscript">PulseNav needs JavaScript enabled to load the map, search, and route.</div>
+  </noscript>
+
+  <main class="app-shell" aria-label="PulseNav maps app">
+    <div id="map" class="map" aria-label="Interactive navigation map"></div>
+
+    <div class="safe-fade top"></div>
+    <div class="safe-fade bottom"></div>
+
+    <section class="top-dock" aria-label="Search and navigation controls">
+      <div class="brand-row">
+        <button id="menuBtn" class="circle-btn ghost" type="button" aria-label="Open quick actions">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="brand-chip" aria-label="PulseNav Drive">
+          <span class="brand-dot"></span>
+          <strong>PulseNav</strong>
+          <small>Drive</small>
+        </div>
+        <div class="brand-actions">
+          <button id="mobileModeBtn" class="mode-switch" type="button" aria-pressed="false" aria-label="Turn compact mobile UI on">
+            <span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span>
+            <span class="switch-label">Mobile UI</span>
+          </button>
+          <button id="voiceBtn" class="circle-btn voice" type="button" aria-label="Turn voice guidance on">🔊</button>
+        </div>
+      </div>
+
+      <form id="searchForm" class="search-card" autocomplete="off">
+        <label class="search-label" for="searchInput">Where to?</label>
+        <div class="search-input-row">
+          <span class="search-icon">⌕</span>
+          <input id="searchInput" name="q" type="search" inputmode="search" placeholder="Search places, parks, stores…" aria-label="Search for a destination" />
+          <button id="clearSearchBtn" class="mini-icon hidden" type="button" aria-label="Clear search">×</button>
+        </div>
+      </form>
+
+      <div id="suggestionPanel" class="suggestion-panel hidden" aria-live="polite"></div>
+    </section>
+
+    <aside id="quickPanel" class="quick-panel hidden" aria-label="Quick actions">
+      <button class="quick-action" data-action="mobile"><span>📱</span><b>Mobile UI</b><small>Compact controls</small></button>
+      <button class="quick-action" data-action="style"><span>🗺️</span><b>Style</b><small>Switch map look</small></button>
+      <button class="quick-action" data-action="home"><span>📍</span><b>My area</b><small>Jump to GPS</small></button>
+      <button class="quick-action" data-action="demo"><span>🚘</span><b>Demo drive</b><small>Preview route movement</small></button>
+      <button class="quick-action" data-action="traffic"><span>🚧</span><b>Road alert</b><small>Add local pin</small></button>
+    </aside>
+
+    <section id="navBanner" class="nav-banner hidden" aria-live="polite">
+      <div class="maneuver-icon" id="maneuverIcon">⬆</div>
+      <div class="nav-copy">
+        <p id="nextDistance">Start</p>
+        <h1 id="nextInstruction">Choose a destination</h1>
+        <span id="rerouteStatus" class="reroute-status hidden">Auto-reroute on</span>
+      </div>
+    </section>
+
+    <section id="routeSheet" class="route-sheet hidden" aria-label="Route details">
+      <div class="sheet-handle"></div>
+      <div class="route-main">
+        <div>
+          <p class="route-label">Fastest route</p>
+          <h2 id="routeTitle">Destination</h2>
+        </div>
+        <button id="closeRouteBtn" class="circle-btn close" type="button" aria-label="Close route">×</button>
+      </div>
+
+      <div class="route-stats">
+        <div><strong id="routeEta">--</strong><span>ETA</span></div>
+        <div><strong id="routeDistance">--</strong><span>Distance</span></div>
+        <div><strong id="routeDuration">--</strong><span>Drive</span></div>
+      </div>
+
+      <div class="route-actions">
+        <button id="startNavBtn" class="primary-btn" type="button">Start drive</button>
+        <button id="recenterBtn" class="secondary-btn" type="button">Recenter</button>
+        <button id="stepsBtn" class="secondary-btn" type="button">Steps</button>
+      </div>
+
+      <ol id="stepsList" class="steps-list hidden"></ol>
+    </section>
+
+    <button id="gpsBtn" class="gps-fab" type="button" aria-label="Go to my location">⌖</button>
+
+    <div id="driveHud" class="drive-hud hidden" aria-label="Drive information">
+      <div><strong id="speedText">0</strong><span>mph</span></div>
+      <div><strong id="hudEta">--</strong><span>ETA</span></div>
+    </div>
+
+    <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+  </main>
+
+  <script src="https://unpkg.com/maplibre-gl@5.4.0/dist/maplibre-gl.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
